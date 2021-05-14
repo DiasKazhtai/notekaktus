@@ -1,0 +1,49 @@
+.scrollContainer {
+    overflow-x: auto;
+
+    &__container {
+        padding: 0 96px;
+        display: flex;
+        border-top: 1px solid rgb(223, 223, 222);
+
+        &__cardListsContainer {
+            display: flex;
+        }
+
+        &__addAGroup {
+            display: flex;
+            width: 180px;
+            white-space: nowrap;
+            align-items: center;
+            height: 44px;
+
+            &__btn {
+                white-space: nowrap;
+                height: 28px;
+                border-radius: 3px;
+                font-size: 14px;
+                line-height: 1.2;
+                min-width: 0px;
+                padding-left: 6px;
+                padding-right: 8px;
+                color: rgba(55, 53, 47, 0.4);
+                align-items: center;
+                cursor: pointer;
+                display: inline-flex;
+                border: none;
+                background: white;
+
+                &:hover {
+                    background: rgba(55, 53, 47, 0.08);
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
