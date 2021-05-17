@@ -1,10 +1,13 @@
 import React from 'react'
 import styles from './headerMenu.module.scss'
 
-export default function header() {
+export default function header({modal}) {
     return (
-        <div className={styles.container}>
-            <div className={styles.container__title}>
+        <div className={styles.container} style={{ position: modal ? 'static' : 'absolute' }}>
+            <div 
+                className={styles.container__title}
+                style={{ display: modal ? 'none' : 'flex' }}
+            >
                 <div className={styles.container__btns__item}>
                     Title
                 </div>

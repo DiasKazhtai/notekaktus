@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './headerStylized.module.scss'
 
-export default function hederStylized() {
+export default function hederStylized({modal}) {
     const [hide, setHide] = useState(true)
 
     const hoverHandler = () => {
@@ -18,7 +18,7 @@ export default function hederStylized() {
             onMouseOver={hoverHandler}
             onMouseOut={outHandler}
         >
-            <div className={styles.container__center}>
+            <div className={styles.container__center} style={{ padding: modal ? '0 126px' : '0 96px' }}>
                 <div className={styles.container__center__hidden}>
                     <div
                         className={styles.container__center__hidden__item}
@@ -30,7 +30,7 @@ export default function hederStylized() {
                     >Add cover</div>
                     <div
                         className={styles.container__center__hidden__item}
-                        style={{ opacity: hide ? '0' : '1' }}
+                        style={{ opacity: hide ? '0' : '1', display: modal ? 'none' : 'flex' }}
                     >Add description</div>
                 </div>
                 <div className={styles.container__center__title}>Title</div>

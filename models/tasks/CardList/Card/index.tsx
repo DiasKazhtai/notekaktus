@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import BigModal from './bigModal'
 import styles from './Card.module.scss'
 
 export default function Card() {
     const [hover, setHover] = useState(false)
     const [click, setClick] = useState(false)
+    const [clickModal, setClickModal] = useState(false)
 
     const [xCoord, setxCoord] = useState(0)
     const [yCoord, setyCoord] = useState(0)
@@ -21,14 +23,32 @@ export default function Card() {
         setHover(false)
         setxCoord(e.clientX)
         setyCoord(e.clientY)
+        e.stopPropagation();
     }
 
-    const clickHandlerOver = () => {
+    const clickHandlerOver = (e) => {
         setClick(false)
+        e.stopPropagation();
+    }
+
+    const openModalHandler = () => {
+        setClickModal(!clickModal)
     }
 
     return (
-        <div className={styles.container} onMouseOver={overHandler} onMouseOut={outHandler}>
+        <div 
+            className={styles.container} 
+            onMouseOver={overHandler} 
+            onMouseOut={outHandler}
+            onClick={openModalHandler}
+        >
+            <div
+                className={styles.container__padding__overlay}  
+                onClick={openModalHandler}
+                style={{ display: clickModal ? 'block' : 'none', background: 'rgba(0, 0, 0, 0.4)' }}
+            >
+                <BigModal />
+            </div>
            <div className={styles.container__padding}>
                <div className={styles.container__padding__text}>
                     PropsText

@@ -1,30 +1,46 @@
 import React, {useState} from 'react'
 import styles from './bigModal.module.scss'
 import HeaderMenu from '../../../../header/headerMenu'
+import HeaderStylized from '../../../../header/headerStylized'
 
 export default function bigModal() {
-    const [click, setClick] = useState(false)
+    const [comment, setComment] = useState('')
+    const [commentList, setCommentList] = useState ([])
 
-    const clickHandlerOver = () => {
-        setClick(false)
+    const commentHandler = (e) => {
+        setComment(e.target.value)
+    }
+
+    const sendHandler = () => {
+        setCommentList(commentList.concat([comment]))
+        setComment('')
     }
 
     return (
         <div 
-            className={styles.container}  
-            onClick={clickHandlerOver}
-            style={{ display: click ? 'block' : 'none' }}
+            className={styles.modal}
+            onClick={(e) => {e.stopPropagation()}}
         >
-            <HeaderMenu />
-            <div 
-                className={styles.container__menu}
-                onClick={(e) => {e.stopPropagation()}}
-            >
-                    <div className={styles.container__menu__list}>
-                        <button>rename</button>
-                        <button>delete</button>
-                        <button>duplicate</button>
-                    </div>
+            <HeaderMenu modal={true} />
+            <HeaderStylized modal={true} />
+            <div className={styles.modal__info}>
+                <div>
+                    <div>Assign</div>
+                    <button>+ Add a property</button>
+                </div>
+                <div>
+                    {
+                        commentList.map((commentItem) => {
+                            return (<div>{commentItem}</div>)
+                        })
+                    }
+                    <textarea 
+                        placeholder="add a comment..."
+                        value={comment}
+                        onChange={commentHandler}
+                    ></textarea>
+                    <button onClick={sendHandler}>send</button>
+                </div>
             </div>
         </div>
     )
