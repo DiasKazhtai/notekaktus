@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import BigModal from './bigModal'
 import styles from './Card.module.scss'
+import {connect} from 'react-redux'
+import {addNote, deleteNote, renameNote} from '../../../../redux/actions.js'
 
-export default function Card() {
+const Card = function({note, deleteNote, renameNote}) {
     const [hover, setHover] = useState(false)
     const [click, setClick] = useState(false)
     const [clickModal, setClickModal] = useState(false)
 
     const [xCoord, setxCoord] = useState(0)
     const [yCoord, setyCoord] = useState(0)
+
+    const [noteText, setNoteText] = useState(`${note.note}`)
+    const [openArea, setOpenArea] = useState(false)
+
 
    const overHandler = () => {
         setHover(true)
@@ -35,6 +41,26 @@ export default function Card() {
         setClickModal(!clickModal)
     }
 
+    const deleteHandler = () => {
+        deleteNote(note)
+    }
+
+    const changeHandler = (e) => {
+        setNoteText(e.target.value)
+      }
+
+    const renameHandler = () => {
+        renameNote({
+            note: note,
+            noteText: noteText
+        })
+        setOpenArea(false)
+    }
+
+    const areaHandler = () => {
+        setOpenArea(true)
+    }
+
     return (
         <div 
             className={styles.container} 
@@ -45,14 +71,25 @@ export default function Card() {
             <div
                 className={styles.container__padding__overlay}  
                 onClick={openModalHandler}
-                style={{ display: clickModal ? 'block' : 'none', background: 'rgba(0, 0, 0, 0.4)' }}
+                style={{ display: clickModal ? 'block' : 'none' }}
             >
                 <BigModal />
             </div>
            <div className={styles.container__padding}>
-               <div className={styles.container__padding__text}>
-                    PropsText
+               <div 
+                    className={styles.container__padding__text} 
+                    style={{ display: !openArea ? 'flex' : 'none' }}
+                >
+                    {note.note}
                </div>
+               <textarea 
+                    onChange={changeHandler} 
+                    onBlur={renameHandler}
+                    style={{ display: openArea ? 'block' : 'none' }}
+                    autoFocus={true}
+                    value={noteText}
+                    onClick={(e) => e.stopPropagation()}
+                ></textarea>
                <button
                     style={{ 
                         opacity: hover ? '1' : '0', 
@@ -73,9 +110,8 @@ export default function Card() {
                         style={{ left: `${xCoord}px`, top: `${yCoord}px` }}
                     >
                             <div className={styles.container__padding__overlay__menu__list}>
-                                <button>rename</button>
-                                <button>delete</button>
-                                <button>duplicate</button>
+                                <button onClick={areaHandler}>rename</button>
+                                <button onClick={deleteHandler}>delete</button>
                             </div>
                     </div>
                </div>
@@ -83,3 +119,18 @@ export default function Card() {
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        array: state.notes.notesItems
+    }
+}
+
+const mapDispatchToProps = {
+    addNote,
+    deleteNote,
+    renameNote
+}
+
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Card)

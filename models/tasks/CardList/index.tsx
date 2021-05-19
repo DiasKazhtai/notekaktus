@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import styles from './CardList.module.scss'
 import Card from './Card'
+import {connect} from 'react-redux'
+import {deleteList, addNote, deleteNote} from '../../../redux/actions.js'
 
-export default function CardList() {
+const CardList = function({list, deleteList, array, addNote, deleteNote}) {
 
     const [click, setClick] = useState(false)
     const [xCoord, setxCoord] = useState(0)
@@ -18,11 +20,33 @@ export default function CardList() {
         setClick(false)
     }
 
+    let totalnotes = 0
+    array.forEach((el) => {
+        if (list.number == el.numberList) {
+            totalnotes = totalnotes + 1
+        }
+    });
+
+    const addHandler = () => {   
+        addNote(
+          {
+            number: array.length,
+            numberList: list.number,
+            note:'Untitled',
+          }
+        )
+    }
+
+    const deleteHandler = () => {
+        deleteList(list)
+        deleteNote(list.number)
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.container__title}>
-                <div className={styles.container__title__text}>PropsText</div>
-                <div className={styles.container__title__counter}>PropsCounter</div>
+                <div className={styles.container__title__text}>{list.title}</div>
+                <div className={styles.container__title__counter}>{totalnotes}</div>
                 <div style={{ flexGrow: 1 }}></div>
                 <div>
                     <button
@@ -43,29 +67,40 @@ export default function CardList() {
                         style={{ left: `${xCoord}px`, top: `${yCoord}px` }}
                     >
                             <div className={styles.container__title__overlay__menu__list}>
-                                <button>rename</button>
-                                <button>delete</button>
-                                <button>duplicate</button>
+                                <button onClick={deleteHandler}>delete</button>
                             </div>
                     </div>
                </div>
                 <div>
-                    <div className={styles.container__title__btns}>+</div>
+                    <div className={styles.container__title__btns} onClick={addHandler}>+</div>
                 </div>
             </div>
             <div className={styles.container__itemsContainer}>
-                <Card />
-                <Card />
-                <Card />
-                {/* {
-                    Array.map((elem) => {
-                        return (
-                            <Card />
-                        )
+                {
+                    array.map((elem) => {
+                        if(elem.numberList == list.number) {
+                            return (
+                                <Card note={elem} key={`${elem.number}`+`${elem.title}`}/>
+                            )
+                        }   
                     })
-                } */}
+                }
             </div>       
-                <button className={styles.container__newBtn}>+ New</button>
+                <button className={styles.container__newBtn} onClick={addHandler}>+ New</button>
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        array: state.notes.notesItems
+    }
+}
+
+const mapDispatchToProps = {
+    deleteList,
+    addNote,
+    deleteNote
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardList)

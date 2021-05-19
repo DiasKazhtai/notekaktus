@@ -1,0 +1,5 @@
+export const ADD_LIST = 'LIST/ADD_LIST'
+export const DELETE_LIST = 'LIST/DELETE_LIST'
+export const ADD_NOTE = 'NOTE/ADD_NOTE'
+export const DELETE_NOTE = 'NOTE/DELETE_NOTE'
+export const RENAME_NOTE = 'NOTE/RENAME_NOTE'
