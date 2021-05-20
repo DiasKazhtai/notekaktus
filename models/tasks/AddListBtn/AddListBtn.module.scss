@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    width: 180px;
+    white-space: nowrap;
+    align-items: center;
+    height: 44px;
+    border-top: 1px solid #dfdfde;
+
+    &__btn {
+        white-space: nowrap;
+        height: 28px;
+        border-radius: 3px;
+        font-size: 14px;
+        line-height: 1.2;
+        min-width: 0px;
+        padding-left: 6px;
+        padding-right: 8px;
+        color: rgba(55, 53, 47, 0.4);
+        align-items: center;
+        cursor: pointer;
+        display: inline-flex;
+        border: none;
+        background: white;
+
+        &:hover {
+            background: rgba(55, 53, 47, 0.08);
+        }
+    }
+}

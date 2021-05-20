@@ -1,6 +1,8 @@
 import { ADD_NOTE } from '../types'
 import { DELETE_NOTE } from '../types'
 import { RENAME_NOTE } from '../types'
+import { RECOUNT_NOTE } from '../types'
+import { RECOUNT_NOTEDEl } from '../types'
 
 const initialState = {
     notesItems: [
@@ -45,6 +47,24 @@ const notesReducer = (state = initialState, action) => {
                 note: action.payload.noteText,
             })
             return {...state, notesItems: state.notesItems.slice(array)}
+
+        case RECOUNT_NOTE:
+            array = state.notesItems
+            array.forEach((e,i) => {
+                if(e.numberList > action.payload){
+                    array[i].numberList = array[i].numberList - 1;
+                }
+            })
+            return {...state, notesItems: state.notesItems.slice(array)}
+
+        case RECOUNT_NOTEDEl:
+        array = state.notesItems
+        array.forEach((e,i) => {
+            if(e.number > action.payload){
+                array[i].number = array[i].number - 1;
+            }
+        })
+        return {...state, notesItems: state.notesItems.slice(array)}
 
             default: return state
     }

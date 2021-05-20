@@ -2,9 +2,9 @@ import React, {useState} from 'react'
 import styles from './CardList.module.scss'
 import Card from './Card'
 import {connect} from 'react-redux'
-import {deleteList, addNote, deleteNote} from '../../../redux/actions.js'
+import {deleteList, addNote, deleteNote, recountNote} from '../../../redux/actions.js'
 
-const CardList = function({list, deleteList, array, addNote, deleteNote}) {
+const CardList = function({list, deleteList, array, addNote, deleteNote, recountNote}) {
 
     const [click, setClick] = useState(false)
     const [xCoord, setxCoord] = useState(0)
@@ -27,10 +27,12 @@ const CardList = function({list, deleteList, array, addNote, deleteNote}) {
         }
     });
 
-    const addHandler = () => {   
+    const addHandler = () => {
+        let counterNotes = array.filter(elem => elem.numberList == list.number)
+        console.log(counterNotes);
         addNote(
           {
-            number: array.length,
+            number: counterNotes.length,
             numberList: list.number,
             note:'Untitled',
           }
@@ -40,6 +42,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote}) {
     const deleteHandler = () => {
         deleteList(list)
         deleteNote(list.number)
+        recountNote(list.number)
     }
 
     return (
@@ -100,7 +103,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     deleteList,
     addNote,
-    deleteNote
+    deleteNote,
+    recountNote
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList)

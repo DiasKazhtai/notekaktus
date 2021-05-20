@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import BigModal from './bigModal'
 import styles from './Card.module.scss'
 import {connect} from 'react-redux'
-import {addNote, deleteNote, renameNote} from '../../../../redux/actions.js'
+import {addNote, deleteNote, renameNote, recountNoteDel} from '../../../../redux/actions.js'
 
-const Card = function({note, deleteNote, renameNote}) {
+const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
     const [hover, setHover] = useState(false)
     const [click, setClick] = useState(false)
     const [clickModal, setClickModal] = useState(false)
@@ -43,6 +43,8 @@ const Card = function({note, deleteNote, renameNote}) {
 
     const deleteHandler = () => {
         deleteNote(note)
+        recountNoteDel(note.number)
+        setClick(false)
     }
 
     const changeHandler = (e) => {
@@ -59,6 +61,7 @@ const Card = function({note, deleteNote, renameNote}) {
 
     const areaHandler = () => {
         setOpenArea(true)
+        setClick(false)
     }
 
     return (
@@ -129,7 +132,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     addNote,
     deleteNote,
-    renameNote
+    renameNote,
+    recountNoteDel
 }
 
 
