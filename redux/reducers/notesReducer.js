@@ -41,9 +41,10 @@ const notesReducer = (state = initialState, action) => {
          
         case RENAME_NOTE:
             let array = state.notesItems
-            array.splice(action.payload.note.number, 1, {
+            let indexI = array.findIndex(noteI => (noteI.numberList == action.payload.note.numberList)&&(noteI.number == action.payload.note.number))
+            array.splice(indexI, 1, {
                 numberList: action.payload.note.numberList,
-                number: action.payload.note.number,
+                number:  action.payload.note.number,
                 note: action.payload.noteText,
             })
             return {...state, notesItems: state.notesItems.slice(array)}
@@ -60,7 +61,7 @@ const notesReducer = (state = initialState, action) => {
         case RECOUNT_NOTEDEl:
         array = state.notesItems
         array.forEach((e,i) => {
-            if(e.number > action.payload){
+            if((e.number > action.payload.number)&&(e.numberList == action.payload.numberList)){
                 array[i].number = array[i].number - 1;
             }
         })

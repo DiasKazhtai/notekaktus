@@ -45,8 +45,22 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
         recountNote(list.number)
     }
 
+    const dropHandler = (e,i) => {
+        console.log('drop = ',i);
+        
+    }
+
+    const dragOverHandler = (e) => {
+        e.preventDefault()
+        
+    }
+
     return (
-        <div className={styles.container}>
+        <div 
+            className={styles.container}
+            onDrop={(e) => dropHandler(e, list)}
+            onDragOver={dragOverHandler}
+        >
             <div className={styles.container__title}>
                 <div className={styles.container__title__text}>{list.title}</div>
                 <div className={styles.container__title__counter}>{totalnotes}</div>
@@ -83,7 +97,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
                     array.map((elem) => {
                         if(elem.numberList == list.number) {
                             return (
-                                <Card note={elem} key={`${elem.number}`+`${elem.title}`}/>
+                                <Card note={elem} key={`${elem.number}`+"Card"+`${elem.numberList}`}/>
                             )
                         }   
                     })

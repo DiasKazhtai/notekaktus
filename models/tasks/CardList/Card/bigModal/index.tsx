@@ -30,8 +30,8 @@ export default function bigModal() {
                 </div>
                 <div>
                     {
-                        commentList.map((commentItem) => {
-                            return (<div>{commentItem}</div>)
+                        commentList.map((commentItem,i) => {
+                            return (<div key={`${commentItem}`+`${i}`}>{commentItem}</div>)
                         })
                     }
                     <textarea 

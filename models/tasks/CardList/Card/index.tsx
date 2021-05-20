@@ -43,7 +43,10 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
 
     const deleteHandler = () => {
         deleteNote(note)
-        recountNoteDel(note.number)
+        recountNoteDel({
+            number: note.number,
+            numberList: note.numberList
+        })
         setClick(false)
     }
 
@@ -64,12 +67,26 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
         setClick(false)
     }
 
+    const dragHandler =(e,item) => {
+        console.log('onDrag = ', item);
+        
+    }
+
+    
+    const dropHandler =(e, note) => {
+        console.log('onDropCard = ', note);
+        
+    }
+
     return (
         <div 
+            draggable={true}
             className={styles.container} 
             onMouseOver={overHandler} 
             onMouseOut={outHandler}
             onClick={openModalHandler}
+            onDragStart={(e) => dragHandler(e, note)}
+            onDrop={(e) => dropHandler(e, note)}
         >
             <div
                 className={styles.container__padding__overlay}  
