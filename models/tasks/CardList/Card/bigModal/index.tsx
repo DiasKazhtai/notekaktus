@@ -20,6 +20,7 @@ export default function bigModal() {
         <div 
             className={styles.modal}
             onClick={(e) => {e.stopPropagation()}}
+            draggable={false}
         >
             <HeaderMenu modal={true} />
             <HeaderStylized modal={true} />

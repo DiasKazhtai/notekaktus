@@ -4,7 +4,7 @@ import styles from './Card.module.scss'
 import {connect} from 'react-redux'
 import {addNote, deleteNote, renameNote, recountNoteDel} from '../../../../redux/actions.js'
 
-const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
+const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
     const [hover, setHover] = useState(false)
     const [click, setClick] = useState(false)
     const [clickModal, setClickModal] = useState(false)
@@ -37,8 +37,9 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
         e.stopPropagation();
     }
 
-    const openModalHandler = () => {
+    const openModalHandler = (e) => {
         setClickModal(!clickModal)
+        e.stopPropagation();
     }
 
     const deleteHandler = () => {
@@ -68,14 +69,33 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
     }
 
     const dragHandler =(e,item) => {
-        console.log('onDrag = ', item);
-        
+        e.dataTransfer.setData('item.number', item.number)
+        e.dataTransfer.setData('item.note', item.note)
+        e.dataTransfer.setData('item.numberList', item.numberList) 
+        // console.log('numberList = ', e.dataTransfer.getData('item.numberList'));
+        // console.log('number = ', e.dataTransfer.getData('item.number'));
     }
 
     
-    const dropHandler =(e, note) => {
-        console.log('onDropCard = ', note);
+    const dropHandler = (e,note) => {
+        e.preventDefault()
+        e.stopPropagation()
+        addNote(
+            {
+              number: e.dataTransfer.getData('item.number'),
+              numberList: e.dataTransfer.getData('item.numberList'),
+              note: e.dataTransfer.getData('item.note'),
+              numberNew: note.number,
+              numberListNew: note.numberList
+            }
+          )
+            console.log('CardDrop');
+            
         
+    }
+
+    const dragOverHandler =(e) => {
+        e.preventDefault()
     }
 
     return (
@@ -87,11 +107,13 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel}) {
             onClick={openModalHandler}
             onDragStart={(e) => dragHandler(e, note)}
             onDrop={(e) => dropHandler(e, note)}
+            onDragOver={dragOverHandler}
         >
             <div
                 className={styles.container__padding__overlay}  
                 onClick={openModalHandler}
                 style={{ display: clickModal ? 'block' : 'none' }}
+                draggable={false}
             >
                 <BigModal />
             </div>

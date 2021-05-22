@@ -28,7 +28,64 @@ const notesReducer = (state = initialState, action) => {
 
     switch (action.type){
         case ADD_NOTE:
-            return {...state, notesItems: state.notesItems.concat(action.payload)}
+            let array
+            let indexI
+            console.log(action.payload);
+            if(action.payload.numberNew === undefined) {
+                if(action.payload.numberListNew === undefined) {
+                    return {...state, notesItems: state.notesItems.concat(action.payload)}
+                }
+
+                if(action.payload.numberListNew != undefined) {
+                    array = state.notesItems
+                    let counterNotes = array.filter(elem => elem.numberList == action.payload.numberListNew)
+                    return {...state, notesItems: state.notesItems.concat({
+                        number: counterNotes.length,
+                        numberList: action.payload.numberListNew,
+                        note: action.payload.note
+                    })}
+                }
+                
+            }
+            
+                if(action.payload.numberNew != undefined){
+                array = state.notesItems
+                indexI = array.findIndex(noteI => (noteI.numberList == action.payload.numberList)&&(noteI.number == action.payload.number))
+                // console.log('note = ',note);
+                // console.log('action = ',action.payload);
+                array.forEach((e) => {
+                    if((e.number > action.payload.numberNew)&&(e.numberList == action.payload.numberListNew)){
+                        e.number = e.number + 1;
+                    }
+                    if((e.number > Number(action.payload.number))&&(e.numberList == Number(action.payload.numberList))){
+                        e.number = e.number - 1;
+                    }
+                })
+                if(action.payload.numberListNew != action.payload.numberList){
+                array.splice(indexI, 1, {
+                    number: action.payload.numberNew + 1,
+                    numberList: action.payload.numberListNew,
+                    note: action.payload.note
+              })
+            } else {
+                if(action.payload.numberNew < action.payload.number){
+                    array.splice(indexI, 1, {
+                        number: action.payload.numberNew + 1,
+                        numberList: action.payload.numberListNew,
+                        note: action.payload.note
+                  })
+                } else {
+                    array.splice(indexI, 1, {
+                        number: action.payload.numberNew,
+                        numberList: action.payload.numberListNew,
+                        note: action.payload.note
+                  })
+                }
+                
+            }
+                return {...state, notesItems: state.notesItems.slice(array)}
+                
+            }
 
         case DELETE_NOTE:
             if(action.payload.numberList != undefined) {
@@ -40,8 +97,8 @@ const notesReducer = (state = initialState, action) => {
             }
          
         case RENAME_NOTE:
-            let array = state.notesItems
-            let indexI = array.findIndex(noteI => (noteI.numberList == action.payload.note.numberList)&&(noteI.number == action.payload.note.number))
+            array = state.notesItems
+            indexI = array.findIndex(noteI => (noteI.numberList == action.payload.note.numberList)&&(noteI.number == action.payload.note.number))
             array.splice(indexI, 1, {
                 numberList: action.payload.note.numberList,
                 number:  action.payload.note.number,
@@ -53,7 +110,7 @@ const notesReducer = (state = initialState, action) => {
             array = state.notesItems
             array.forEach((e,i) => {
                 if(e.numberList > action.payload){
-                    array[i].numberList = array[i].numberList - 1;
+                    e.numberList = e.numberList - 1;
                 }
             })
             return {...state, notesItems: state.notesItems.slice(array)}
