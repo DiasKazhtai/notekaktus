@@ -71,27 +71,26 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
     const dragHandler =(e,item) => {
         e.dataTransfer.setData('item.number', item.number)
         e.dataTransfer.setData('item.note', item.note)
-        e.dataTransfer.setData('item.numberList', item.numberList) 
-        // console.log('numberList = ', e.dataTransfer.getData('item.numberList'));
-        // console.log('number = ', e.dataTransfer.getData('item.number'));
+        e.dataTransfer.setData('item.numberList', item.numberList)
+        e.stopPropagation()
     }
 
     
     const dropHandler = (e,note) => {
         e.preventDefault()
         e.stopPropagation()
-        addNote(
-            {
-              number: e.dataTransfer.getData('item.number'),
-              numberList: e.dataTransfer.getData('item.numberList'),
-              note: e.dataTransfer.getData('item.note'),
-              numberNew: note.number,
-              numberListNew: note.numberList
-            }
-          )
-            console.log('CardDrop');
-            
-        
+        if(e.dataTransfer.getData('item.number')){
+            addNote(
+                {
+                    number: e.dataTransfer.getData('item.number'),
+                    numberList: e.dataTransfer.getData('item.numberList'),
+                    note: e.dataTransfer.getData('item.note'),
+                    numberNew: note.number,
+                    numberListNew: note.numberList
+                }
+            )
+         }   
+        e.dataTransfer.clearData() 
     }
 
     const dragOverHandler =(e) => {

@@ -1,24 +1,24 @@
 import { ADD_LIST } from '../types.js'
 import { DELETE_LIST } from '../types.js'
+import { RECOUNT_LIST } from '../types.js'
 
 const initialState = {
     listItems: [
         {
-            number: 0,
-            title: 'No status',
-            block: true,
-        },
-        {
-            number: 1,
-            title: 'Not started',
+            number: 3,
+            title: '3',
         },
         {
             number: 2,
-            title: 'In progress',
+            title: '2',
         },
         {
-            number: 3,
-            title: 'Completed',
+            number: 0,
+            title: '0',
+        },
+        {
+            number: 1,
+            title: '1',
         },
     ]
   }
@@ -36,6 +36,40 @@ const initialState = {
                 title: `${e.title}`,
             }
         })}
+
+        case RECOUNT_LIST:
+            let array = state.listItems
+            //console.log('old = ', array);
+            array.forEach((e, i) => {
+                // if((e.number > Number(action.payload.number))&&(e.number <= action.payload.numberNew)) {
+                //     e.number= e.number -1
+                // }
+                // if(e.number = Number(action.payload.number)) {
+                //     e.number = e.numberNew
+                // }
+                if(Number(action.payload.number) < action.payload.numberNew) {
+                    if((e.number > Number(action.payload.number))&&(e.number <= action.payload.numberNew)){
+                        array[i].number = array[i].number - 1;
+                        console.log('up');
+                    } else {
+                    if((e.number == Number(action.payload.number))){
+                        array[i].number = action.payload.numberNew;
+                        console.log('down');
+                    }}
+                }
+                if(Number(action.payload.number) > action.payload.numberNew) {
+                    if((e.number < Number(action.payload.number))&&(e.number >= action.payload.numberNew)){
+                        array[i].number = array[i].number + 1;
+                        console.log('up');
+                    } else {
+                    if((e.number == Number(action.payload.number))){
+                        array[i].number = action.payload.numberNew;
+                        console.log('down');
+                    }}
+                }
+            })
+            //console.log('new = ', array);
+            return { ...state, listItems: state.listItems.slice(array) }
     
         default: return state
     }

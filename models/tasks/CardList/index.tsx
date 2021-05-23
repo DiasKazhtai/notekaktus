@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react'
 import styles from './CardList.module.scss'
 import Card from './Card'
 import {connect} from 'react-redux'
-import {deleteList, addNote, deleteNote, recountNote, recountNoteDel} from '../../../redux/actions.js'
+import {deleteList, addNote, deleteNote, recountNote, recountNoteDel, recountList, recountNoteDrag} from '../../../redux/actions.js'
 
-const CardList = function({list, deleteList, array, addNote, deleteNote, recountNote, recountNoteDel}) {
+
+const CardList = function({list, deleteList, array, addNote, deleteNote, recountNote, recountNoteDel, recountList, recountNoteDrag}) {
     let arrayList = array.filter(note => (note.numberList == list.number)) 
 
     useEffect(() => {
@@ -36,7 +37,6 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
 
     const addHandler = () => {
         let counterNotes = array.filter(elem => elem.numberList == list.number)
-        // console.log(counterNotes);
         addNote(
           {
             number: counterNotes.length,
@@ -53,8 +53,8 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
     }
 
     const dropHandler = (e,list) => {
-        
-            // console.log('stroka = ', e.dataTransfer.getData("stroka"));
+        if(e.dataTransfer.getData('isList') != 1){
+            console.log('nesrabotal recount');
         deleteNote({
             number: e.dataTransfer.getData('item.number'),
             numberList: e.dataTransfer.getData('item.numberList'),
@@ -71,6 +71,31 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
               numberListNew: list.number
             }
           )
+        } 
+        
+        if(e.dataTransfer.getData('isList') == 1) {
+            console.log('srabotal recount');
+            
+           
+            
+            recountNoteDrag(
+                {
+                    number: e.dataTransfer.getData('list.number'),
+                    numberNew: list.number
+                }
+            )
+            // e.preventDefault()
+            // e.stopPropagation()
+            recountList(
+                {
+                    number: e.dataTransfer.getData('list.number'),
+                    numberNew: list.number
+                }
+            )
+            console.log('nerabotaet');
+        }
+        
+        e.dataTransfer.clearData()
     }
 
     const dragOverHandler = (e) => {
@@ -78,11 +103,16 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
         
     }
 
-    const sortFunc = (i) => {
-        console.log('arrayList = ',arrayList);
-        let itemF = arrayList.find((elem) => (i == elem.number))
-        console.log('itemF = ',i, itemF);
+    const dragStartHandler = (e, list) => {
+        e.dataTransfer.setData('list.number', list.number)
+        e.dataTransfer.setData('isList', 1)
+        //console.log('get = ',e.dataTransfer.getData('isList'));
+        console.log('list.number = ',e.dataTransfer.getData('list.number'));
         
+    }
+
+    const sortFunc = (i) => {
+        let itemF = arrayList.find((elem) => (i == elem.number))
         return {
             number: itemF.number,
             numberList: itemF.numberList,
@@ -95,6 +125,8 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
             className={styles.container}
             onDrop={(e) => dropHandler(e, list)}
             onDragOver={dragOverHandler}
+            draggable={true}
+            onDragStart={(e) => dragStartHandler(e, list)}
         >
             <div className={styles.container__title}>
                 <div className={styles.container__title__text}>{list.title}</div>
@@ -130,9 +162,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
             <div className={styles.container__itemsContainer}>
                 {    
                     arrayList.map((elem,i) => {
-                        let item = sortFunc(i)
-                        console.log(item);
-                        
+                        let item = sortFunc(i)                        
                         return (
                             <Card note={item} key={`${item.number}`+"Card"+`${item.numberList}`}/>
                         )    
@@ -155,7 +185,9 @@ const mapDispatchToProps = {
     addNote,
     deleteNote,
     recountNote,
-    recountNoteDel
+    recountNoteDel,
+    recountList,
+    recountNoteDrag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList)
