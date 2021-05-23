@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BigModal from './bigModal'
 import styles from './Card.module.scss'
 import {connect} from 'react-redux'
 import {addNote, deleteNote, renameNote, recountNoteDel} from '../../../../redux/actions.js'
+import RenamePlace from './renamePlace'
 
 const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
     const [hover, setHover] = useState(false)
@@ -12,7 +13,6 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
     const [xCoord, setxCoord] = useState(0)
     const [yCoord, setyCoord] = useState(0)
 
-    const [noteText, setNoteText] = useState(`${note.note}`)
     const [openArea, setOpenArea] = useState(false)
 
 
@@ -49,19 +49,7 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
             numberList: note.numberList
         })
         setClick(false)
-    }
-
-    const changeHandler = (e) => {
-        setNoteText(e.target.value)
-      }
-
-    const renameHandler = () => {
-        renameNote({
-            note: note,
-            noteText: noteText
-        })
-        setOpenArea(false)
-    }
+    }  
 
     const areaHandler = () => {
         setOpenArea(true)
@@ -97,6 +85,10 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
         e.preventDefault()
     }
 
+    const closeF = (e) => {
+        setOpenArea(e)
+    }
+
     return (
         <div 
             draggable={true}
@@ -117,20 +109,8 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
                 <BigModal />
             </div>
            <div className={styles.container__padding}>
-               <div 
-                    className={styles.container__padding__text} 
-                    style={{ display: !openArea ? 'flex' : 'none' }}
-                >
-                    {note.note}
-               </div>
-               <textarea 
-                    onChange={changeHandler} 
-                    onBlur={renameHandler}
-                    style={{ display: openArea ? 'block' : 'none' }}
-                    autoFocus={true}
-                    value={noteText}
-                    onClick={(e) => e.stopPropagation()}
-                ></textarea>
+              
+               <RenamePlace rename={openArea} note={note} closeF={closeF} />
                <button
                     style={{ 
                         opacity: hover ? '1' : '0', 

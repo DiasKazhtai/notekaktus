@@ -39,14 +39,7 @@ const initialState = {
 
         case RECOUNT_LIST:
             let array = state.listItems
-            //console.log('old = ', array);
             array.forEach((e, i) => {
-                // if((e.number > Number(action.payload.number))&&(e.number <= action.payload.numberNew)) {
-                //     e.number= e.number -1
-                // }
-                // if(e.number = Number(action.payload.number)) {
-                //     e.number = e.numberNew
-                // }
                 if(Number(action.payload.number) < action.payload.numberNew) {
                     if((e.number > Number(action.payload.number))&&(e.number <= action.payload.numberNew)){
                         array[i].number = array[i].number - 1;
@@ -60,15 +53,12 @@ const initialState = {
                 if(Number(action.payload.number) > action.payload.numberNew) {
                     if((e.number < Number(action.payload.number))&&(e.number >= action.payload.numberNew)){
                         array[i].number = array[i].number + 1;
-                        console.log('up');
                     } else {
                     if((e.number == Number(action.payload.number))){
                         array[i].number = action.payload.numberNew;
-                        console.log('down');
                     }}
                 }
             })
-            //console.log('new = ', array);
             return { ...state, listItems: state.listItems.slice(array) }
     
         default: return state

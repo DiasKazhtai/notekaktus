@@ -1,0 +1,19 @@
+.text {
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 1em;
+    font-weight: 500;
+    color: rgb(55, 53, 47);
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.area {
+    resize: none;
+    height: 100%;
+    width: 100%;
+    border: none;
+    &:focus {
+        border: none;
+    }
+}
