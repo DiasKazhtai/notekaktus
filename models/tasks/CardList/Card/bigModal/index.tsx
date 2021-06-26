@@ -3,7 +3,7 @@ import styles from './bigModal.module.scss'
 import HeaderMenu from '../../../../header/headerMenu'
 import HeaderStylized from '../../../../header/headerStylized'
 
-export default function bigModal() {
+export default function bigModal({note}) {
     const [comment, setComment] = useState('')
     const [commentList, setCommentList] = useState ([])
 
@@ -22,8 +22,8 @@ export default function bigModal() {
             onClick={(e) => {e.stopPropagation()}}
             draggable={false}
         >
-            <HeaderMenu modal={true} />
-            <HeaderStylized modal={true} />
+            <HeaderMenu modal={true} title={''} />
+            <HeaderStylized modal={true} title={note} />
             <div className={styles.modal__info}>
                 <div>
                     <div>Assign</div>

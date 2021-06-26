@@ -47,7 +47,7 @@ const AddListBtn = function({array, addList}) {
                 <textarea 
                     onChange={changeHandler} 
                     onBlur={addHandler}
-                    style={{ display: openArea ? 'block' : 'none' }}
+                    style={{ display: openArea ? 'block' : 'none', resize: 'none' }}
                     autoFocus
                     value={listTitle}
                 ></textarea>

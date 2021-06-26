@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {addNote, deleteNote, renameNote, recountNoteDel} from '../../../../redux/actions.js'
 import RenamePlace from './renamePlace'
 
-const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
+const Card = function({note, deleteNote, recountNoteDel, addNote}) {
     const [hover, setHover] = useState(false)
     const [click, setClick] = useState(false)
     const [clickModal, setClickModal] = useState(false)
@@ -15,6 +15,13 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
 
     const [openArea, setOpenArea] = useState(false)
 
+    useEffect(() => {
+        if(!note.note){
+            setOpenArea(true)
+        }
+    })
+
+    
 
    const overHandler = () => {
         setHover(true)
@@ -57,9 +64,11 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
     }
 
     const dragHandler =(e,item) => {
-        e.dataTransfer.setData('item.number', item.number)
-        e.dataTransfer.setData('item.note', item.note)
-        e.dataTransfer.setData('item.numberList', item.numberList)
+        if(!openArea){
+            e.dataTransfer.setData('item.number', item.number)
+            e.dataTransfer.setData('item.note', item.note)
+            e.dataTransfer.setData('item.numberList', item.numberList)
+        }
         e.stopPropagation()
     }
 
@@ -91,7 +100,7 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
 
     return (
         <div 
-            draggable={true}
+            draggable={!clickModal}
             className={styles.container} 
             onMouseOver={overHandler} 
             onMouseOut={outHandler}
@@ -99,6 +108,8 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
             onDragStart={(e) => dragHandler(e, note)}
             onDrop={(e) => dropHandler(e, note)}
             onDragOver={dragOverHandler}
+            onTouchStart={(e) => dragHandler(e, note)}
+            onTouchEnd ={(e) => dropHandler(e, note)}
         >
             <div
                 className={styles.container__padding__overlay}  
@@ -106,7 +117,7 @@ const Card = function({note, deleteNote, renameNote, recountNoteDel, addNote}) {
                 style={{ display: clickModal ? 'block' : 'none' }}
                 draggable={false}
             >
-                <BigModal />
+                <BigModal note={note.note} />
             </div>
            <div className={styles.container__padding}>
               

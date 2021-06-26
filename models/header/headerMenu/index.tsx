@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './headerMenu.module.scss'
 
-export default function header({modal}) {
+export default function header({modal, title}) {
     return (
         <div className={styles.container} style={{ position: modal ? 'static' : 'absolute' }}>
             <div 
@@ -9,7 +9,7 @@ export default function header({modal}) {
                 style={{ display: modal ? 'none' : 'flex' }}
             >
                 <div className={styles.container__btns__item}>
-                    Title
+                    {title}
                 </div>
             </div>
             <div className={styles.container__empty}></div>

@@ -41,7 +41,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
           {
             number: counterNotes.length,
             numberList: list.number,
-            note:'Untitled',
+            note:'',
           }
         )
     }
@@ -54,7 +54,6 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
 
     const dropHandler = (e,list) => {
         if(e.dataTransfer.getData('isList') != 1){
-            console.log('nesrabotal recount');
         deleteNote({
             number: e.dataTransfer.getData('item.number'),
             numberList: e.dataTransfer.getData('item.numberList'),
@@ -74,25 +73,20 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
         } 
         
         if(e.dataTransfer.getData('isList') == 1) {
-            console.log('srabotal recount');
             
-           
-            
-            recountNoteDrag(
+           recountNoteDrag(
                 {
                     number: e.dataTransfer.getData('list.number'),
                     numberNew: list.number
                 }
             )
-            // e.preventDefault()
-            // e.stopPropagation()
+
             recountList(
                 {
                     number: e.dataTransfer.getData('list.number'),
                     numberNew: list.number
                 }
             )
-            console.log('nerabotaet');
         }
         
         e.dataTransfer.clearData()
@@ -105,10 +99,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
 
     const dragStartHandler = (e, list) => {
         e.dataTransfer.setData('list.number', list.number)
-        e.dataTransfer.setData('isList', 1)
-        //console.log('get = ',e.dataTransfer.getData('isList'));
-        console.log('list.number = ',e.dataTransfer.getData('list.number'));
-        
+        e.dataTransfer.setData('isList', 1)        
     }
 
     const sortFunc = (i) => {
@@ -127,6 +118,8 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
             onDragOver={dragOverHandler}
             draggable={true}
             onDragStart={(e) => dragStartHandler(e, list)}
+            onTouchStart={(e) => dragStartHandler(e, list)}
+            onTouchEnd={(e) => dropHandler(e, list)}
         >
             <div className={styles.container__title}>
                 <div className={styles.container__title__text}>{list.title}</div>
@@ -164,7 +157,10 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
                     arrayList.map((elem,i) => {
                         let item = sortFunc(i)                        
                         return (
-                            <Card note={item} key={`${item.number}`+"Card"+`${item.numberList}`}/>
+                            <Card 
+                                note={item} 
+                                key={`${item.number}`+"Card"+`${item.numberList}`}
+                            />
                         )    
                     })
                 }

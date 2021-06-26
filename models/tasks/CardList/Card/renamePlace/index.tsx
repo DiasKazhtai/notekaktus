@@ -34,7 +34,11 @@ const renamePlace = function({rename, note, renameNote, closeF}) {
                     onBlur={renameHandler}
                     autoFocus={true}
                     value={noteText}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                    }
+                    }
                     draggable={false}
                     className={styles.area}
                 ></textarea>  

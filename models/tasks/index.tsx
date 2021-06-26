@@ -7,23 +7,9 @@ import AddListBtn from './AddListBtn'
 import {connect} from 'react-redux'
 
 const Tasks = function({array}) {
-  
-  
-  // array.map((e,i) => {
-  //   array[i] = array.find(el => el.number == i) 
-  // })
 
-  // useEffect(() => {
-  //   console.log('effectArr1 = ',array);
-  //   array.map((e,i) => {
-  //     array[i] = array.find(el => el.number == i) 
-  //   })
-  //   console.log('effectArr2 =',array);
-  // })
-  
   const sortFunc = (i) => {
     let itemF = array.find((elem) => (i == elem.number))
-    console.log("itemF = ", itemF);
     
     return {
         number: itemF.number,
@@ -33,8 +19,8 @@ const Tasks = function({array}) {
 
     return (
       <>
-      <HeaderMenu modal={false}/>
-      <HeaderStylized modal={false}/>
+      <HeaderMenu modal={false} title={'NoteKaktus'} />
+      <HeaderStylized modal={false} title={'NoteKaktus'} />
       <div className={styles.scrollContainer}>
           <div className={styles.scrollContainer__container}>
             <div className={styles.scrollContainer__container__cardListsContainer}>

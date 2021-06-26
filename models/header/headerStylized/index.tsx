@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './headerStylized.module.scss'
 
-export default function hederStylized({modal}) {
+export default function headerStylized({modal, title}) {
     const [hide, setHide] = useState(true)
 
     const hoverHandler = () => {
@@ -33,7 +33,7 @@ export default function hederStylized({modal}) {
                         style={{ opacity: hide ? '0' : '1', display: modal ? 'none' : 'flex' }}
                     >Add description</div>
                 </div>
-                <div className={styles.container__center__title}>Title</div>
+                <div className={styles.container__center__title}>{title}</div>
             </div>
         </div>
     )
