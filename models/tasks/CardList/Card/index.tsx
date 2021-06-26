@@ -110,6 +110,7 @@ const Card = function({note, deleteNote, recountNoteDel, addNote}) {
             onDragOver={dragOverHandler}
             onTouchStart={(e) => dragHandler(e, note)}
             onTouchEnd ={(e) => dropHandler(e, note)}
+            onTouchMove={dragOverHandler}
         >
             <div
                 className={styles.container__padding__overlay}  

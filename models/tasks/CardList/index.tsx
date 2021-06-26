@@ -120,6 +120,7 @@ const CardList = function({list, deleteList, array, addNote, deleteNote, recount
             onDragStart={(e) => dragStartHandler(e, list)}
             onTouchStart={(e) => dragStartHandler(e, list)}
             onTouchEnd={(e) => dropHandler(e, list)}
+            onTouchMove={dragOverHandler}
         >
             <div className={styles.container__title}>
                 <div className={styles.container__title__text}>{list.title}</div>
