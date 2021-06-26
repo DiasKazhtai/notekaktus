@@ -1,9 +1,10 @@
-import styles from '../styles/Home.module.css'
+import React from 'react'
+import Tasks from '../models/tasks'
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-        noteKaktus
-    </div>
-  )
+export default function TasksPage() {
+    return (
+        <div>
+            <Tasks />
+        </div>
+    )
 }

@@ -1,0 +1,68 @@
+import { ADD_LIST, RECOUNT_LIST } from './types.js'
+import { DELETE_LIST } from './types.js'
+import { ADD_NOTE } from './types.js'
+import { DELETE_NOTE, RENAME_NOTE, RECOUNT_NOTE, RECOUNT_NOTEDRAG } from './types.js'
+import { RECOUNT_NOTEDEl } from './types.js'
+
+export const addList = function (listItem) {
+    return {
+        type: ADD_LIST,
+        payload: listItem
+    }
+}
+
+export const deleteList = function (listItem) {
+    return {
+        type: DELETE_LIST,
+        payload: listItem
+    }
+}
+
+export const addNote = function (noteItem) {
+    return {
+        type: ADD_NOTE,
+        payload: noteItem
+    }
+}
+
+export const deleteNote = function (noteItem) {
+    return {
+        type: DELETE_NOTE,
+        payload: noteItem
+    }
+}
+
+export const renameNote = function(noteItem) {
+    return {
+        type: RENAME_NOTE,
+        payload: noteItem
+    }
+}
+
+export const recountNote = function(noteItem) {
+    return {
+        type: RECOUNT_NOTE,
+        payload: noteItem
+    }
+}
+
+export const recountNoteDel = function(noteItem) {
+    return {
+        type: RECOUNT_NOTEDEl,
+        payload: noteItem
+    }
+}
+
+export const recountList = function(noteItem) {
+    return {
+        type: RECOUNT_LIST,
+        payload: noteItem
+    }
+}
+
+export const recountNoteDrag = function(noteItem) {
+    return {
+        type: RECOUNT_NOTEDRAG,
+        payload: noteItem
+    }
+}
